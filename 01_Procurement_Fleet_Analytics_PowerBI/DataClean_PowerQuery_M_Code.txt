@@ -1,20 +1,24 @@
 Phase 1: Standardize Each Table Individually
 Power Query Editor for each of the 4 queries.
+
 1. The Fuel Table
-- Rename Columns: Double-click Gross and rename it to Total Cost (EUR).
-- Clean Dates: Select the Date column. Go to Transform > Data Type > Date (this automatically strips off the time).
+- Rename Columns: Rename Gross to Total Cost (EUR).
+- Clean time from Dates: Select the Date column. Go to Transform > Data Type > Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "Fuel".
 - Clean up: Select Date, Category, and Total Cost (EUR). Right-click one of the headers and click Remove Other Columns.
+
 2. The Toll Table
 - Rename Columns: Rename DateTime to Date, and rename Amount to Total Cost (EUR).
 - Clean Dates: Change the Date column type to Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "Toll".
 - Clean up: Select Date, Category, and Total Cost (EUR). Right-click and Remove Other Columns.
+
 3. The Parking Table
 - Rename Columns: Rename Date Created to Date, and rename Total to Total Cost (EUR).
 - Clean Dates: Change the Date column type to Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "Parking".
 - Clean up: Select Date, Category, and Total Cost (EUR). Right-click and Remove Other Columns.
+
 4. The EV Table (The Messy One)
 - Fix Header: Rename Date (with the space) to Date. Change type to Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "EV Charge".
@@ -25,9 +29,9 @@ let
 in 
    NumericValue * 1.20
 
-4.	Clean up: Select Date, Category, and Total Cost (EUR). Right-click and Remove Other Columns.
+- Clean up: Select Date, Category, and Total Cost (EUR). Right-click and Remove Other Columns.
 
-Phase 2: Combine Them Together (The Magic Step)
+Phase 2: Combine Them Together
 Append the tables together.
 1.	On the Home tab, click Append Queries > Append Queries as New.
 2.	Select Three or more tables.
