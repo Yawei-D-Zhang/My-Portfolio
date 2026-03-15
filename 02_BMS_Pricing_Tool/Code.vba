@@ -1,3 +1,4 @@
+Project Info
 'send quote to client via outlook
 Private Sub BtnEmail_Click()
 
@@ -51,3 +52,23 @@ Forms!FRMQuotation!ProjectSelling = Me.ProjectSelling
 
 End Sub
 
+
+
+Point list
+'Get the cost of selected material from the library
+Private Sub ProductCode_AfterUpdate()
+'Me.Supplier = DLookup("[Supplier]", "QURLibraryDevice", "[ProductCode] = '" & Me.ProductCode & "'")
+'Me.Description = DLookup("[Description]", "QURLibraryDevice", "[ProductCode] = '" & Me.ProductCode & "'")
+'Me.ItemCost = DLookup("[Cost]", "QURLibraryDevice", "[ProductCode] = '" & Me.ProductCode & "'")
+
+If Me.Supplier = "H&C" Then
+Me.Description = DLookup("[Description]", "QURH&Ccurrencyexchange", "[Product Code] = '" & Me.ProductCode & "'")
+Me.ItemCost = DLookup("[FinalCost]", "QURH&Ccurrencyexchange", "[Product Code] = '" & Me.ProductCode & "'")
+End If
+
+If Me.Supplier = "Sontay" Then
+Me.Description = DLookup("[Description]", "TBLLibrarySontay", "[Product Code] = '" & Me.ProductCode & "'")
+Me.ItemCost = DLookup("[Cost]", "TBLLibrarySontay", "[Product Code] = '" & Me.ProductCode & "'")
+End If
+
+End Sub
