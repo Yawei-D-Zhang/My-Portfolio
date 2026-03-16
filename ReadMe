@@ -1,0 +1,40 @@
+Data Analytics & Business Automation Portfolio
+Welcome to my technical repository. This project serves as the backend documentation and code repository for the business solutions showcased in my Notion Portfolio.
+
+Repository Overview
+
+This repository contains the technical logic, database schemas, and automation scripts used to build end-to-end data solutions for the Facilities Management (FM) and Procurement sectors.
+
+Project Highlights
+
+01 | Procurement & Fleet Analytics (Power BI & ETL)
+Folder: /01_Procurement_Fleet_Analytics
+This project focuses on advanced ETL processes to unify disparate fleet data and procurement records.
+- SQL Schema: Includes the DDL for the ProcRep fact table.
+- Power Query (M Code) Transformation:
+    Standardized four distinct data sources (Fuel, Toll, Parking, EV) by renaming headers and enforcing strict data types.
+    Implemented custom M logic to handle currency conversion for EV charging data, stripping currency symbols and applying a fixed 1.20 exchange rate.
+    Automated data pruning by removing unnecessary columns and retaining only "Date", "Category", and "Total Cost (EUR)".
+    Utilized "Append Queries" to stack standardized tables into a unified Master Fleet Costs table.
+Performance Optimization: Configured staging queries to refresh in the background without loading into the final report model to minimize memory footprint.
+
+02 | BMS Automated Pricing Tool (MS Access & VBA)
+Folder: /02_BMS_Pricing_Tool
+A relational database application built to automate complex engineering estimations.
+- RDBMS Design: Features the relational structure connecting master supplier libraries to project-specific cost calculations.
+- VBA automation: Script for automating the export of professional Bill of Quantities (BOQ) and Quotations to PDF.
+
+
+🛠️ Technical Stack
+Languages: SQL (T-SQL/MySQL), VBA, M (Power Query), DAX.
+
+Tools: Power BI Desktop, Microsoft Access, Excel Online, SharePoint.
+
+Methodologies: Star Schema Modeling, RDBMS Design, Agile Process Improvement.
+
+📬 Contact & Links
+Portfolio (Detailed Case Studies): [Insert Notion Link]
+
+LinkedIn: [Insert LinkedIn Link]
+
+Email: [Insert Professional Email]
