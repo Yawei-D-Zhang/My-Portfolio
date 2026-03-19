@@ -6,14 +6,72 @@
 
 2. Report Month
 - Define the date 
-  · Report Month Start = STARTOFMONTH(DATESINPERIOD('RollingCalendar'[Date], [Report Month End], -1, MONTH))
+  - Max Data Date = CALCULATE(MAX('ProcRep'[Orderdate]), REMOVEFILTERS('RollingCalendar'))
+  · Report Month Start = DATE(YEAR([Max Data Date]), MONTH([Max Data Date]), 1)
   · Report Month End = EOMONTH([Max Data Date],0)
 - Prior Month
-  · Prior Month Mat Value = CALCULATE([Total Value of Mat Orders], DATEADD(DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End]), -1, MONTH) )
+Prior Month Order No. = 
+CALCULATE(
+    [Total Count of Orders Raised],
+    REMOVEFILTERS('RollingCalendar'),
+    DATESBETWEEN('RollingCalendar'[Date], [Prior Month Start], [Prior Month End])
+)
+
+
+Prior Month Order Value = 
+CALCULATE(
+    [Total Value of Orders Raised],
+    REMOVEFILTERS('RollingCalendar'),
+    DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
+)
+
+
+Prior Month Mat Value = 
+CALCULATE(
+    [Total Value of Mat Orders], 
+REMOVEFILTERS('RollingCalendar'), -- This is the critical line
+    KEEPFILTERS(
+        DATESBETWEEN('RollingCalendar'[Date], [Prior Month Start], [Prior Month End])
+    )
+) 
+
 - Report Month
-  · Current Month Active Suppliers = CALCULATE(DISTINCTCOUNT('ProcRep'[SupplierName]),DATESBETWEEN(RollingCalendar[Date], [Report Month Start], [Report Month End]))
-  · Current Month Order Value = CALCULATE([Total Value of Orders Raised], DATESBETWEEN(RollingCalendar[Date], [Report Month Start], [Report Month End]))
-  · Current Month Open Order Value = CALCULATE([Current Month Order Value], 'ProcRep'[StatusCategory] = "Open Orders")
+Current Month Active Suppliers = 
+CALCULATE(
+    DISTINCTCOUNT('ProcRep'[SupplierName]),
+    REMOVEFILTERS('RollingCalendar'),
+    DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
+)
+
+Current Month Order No. = 
+CALCULATE(
+    [Total Count of Orders Raised],
+    REMOVEFILTERS('RollingCalendar'),
+    DATESBETWEEN('RollingCalendar'[Date], [Report Month Start] , [Report Month End])
+)
+
+Current Month Order Value = 
+CALCULATE(
+    [Total Count of Orders Raised],
+    REMOVEFILTERS('RollingCalendar'),
+    DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
+)
+
+Current Month Sub Value = 
+CALCULATE(
+    [Total Value of Sub Orders], 
+    REMOVEFILTERS('RollingCalendar'), -- This is the critical line
+    KEEPFILTERS(
+        DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
+    )
+) 
+
+Current Month Ave. Value = 
+CALCULATE(
+    [Total Value of Orders Raised]/[Total Count of Orders Raised], 
+    REMOVEFILTERS('RollingCalendar'),
+    DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
+)
 
 3. Top 10
 - Contract Rank = RANKX(ALL('ProcRep'[ContractName]), 'ProcRep'[Total Value of Orders Raised], ,DESC)
