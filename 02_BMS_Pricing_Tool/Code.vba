@@ -1,4 +1,4 @@
-Project Info
+Send Email
 'send quote to client via outlook
 Private Sub BtnEmail_Click()
 
@@ -23,7 +23,10 @@ Private Sub BtnEmail_Click()
 
 End Sub
 
-'Refresh button in Project Info
+
+
+Refresh
+'Refresh page to capture the modification in review stage 
 Private Sub BtnRefresh_Click()
 
 Me.Totalpoints = Me.Admintotalpoints
@@ -37,7 +40,10 @@ End If
 Me.Refresh
 End Sub
 
-'Generate quote
+
+
+Generate Quote
+'Generate quote in PDF
 Private Sub GetQuote_Click()
 DoCmd.OpenForm FormName:="FRMQuotation"
 Forms!FRMQuotation!ProjectID = Me.ProjeciID
@@ -54,8 +60,8 @@ End Sub
 
 
 
-Point list
-'Get the cost of selected material from the library
+BMS Point list Form
+'Get the cost of selected material from the library during data entry
 Private Sub ProductCode_AfterUpdate()
 'Me.Supplier = DLookup("[Supplier]", "QURLibraryDevice", "[ProductCode] = '" & Me.ProductCode & "'")
 'Me.Description = DLookup("[Description]", "QURLibraryDevice", "[ProductCode] = '" & Me.ProductCode & "'")
