@@ -1,32 +1,36 @@
 1. Total
-- Total Count of Orders Raised = COUNTA(ProcRep[Ord])
-- Total Value of Orders Raised = CALCULATE(SUM('ProcRep'[Exvat]))
-- Total Value of Mat Orders = CALCULATE([Total Value of Orders Raised], 'ProcRep'[OrdType] = "M")
-- No. of Active Suppliers Used = DISTINCTCOUNT('ProcRep'[SupplierName])
+  · Total Count of Orders Raised = COUNTA(ProcRep[Ord])
+
+  · Total Value of Orders Raised = CALCULATE(SUM('ProcRep'[Exvat]))
+
+  · Total Value of Mat Orders = CALCULATE([Total Value of Orders Raised], 'ProcRep'[OrdType] = "M")
+
+  · No. of Active Suppliers Used = DISTINCTCOUNT('ProcRep'[SupplierName])
 
 2. Report Month
 - Define the date 
-  - Max Data Date = CALCULATE(MAX('ProcRep'[Orderdate]), REMOVEFILTERS('RollingCalendar'))
+  · Max Data Date = CALCULATE(MAX('ProcRep'[Orderdate]), REMOVEFILTERS('RollingCalendar'))
+
   · Report Month Start = DATE(YEAR([Max Data Date]), MONTH([Max Data Date]), 1)
+
   · Report Month End = EOMONTH([Max Data Date],0)
+
 - Prior Month
-Prior Month Order No. = 
+  · Prior Month Order No. = 
 CALCULATE(
     [Total Count of Orders Raised],
     REMOVEFILTERS('RollingCalendar'),
     DATESBETWEEN('RollingCalendar'[Date], [Prior Month Start], [Prior Month End])
 )
 
-
-Prior Month Order Value = 
+  · Prior Month Order Value = 
 CALCULATE(
     [Total Value of Orders Raised],
     REMOVEFILTERS('RollingCalendar'),
     DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
 )
 
-
-Prior Month Mat Value = 
+  · Prior Month Mat Value = 
 CALCULATE(
     [Total Value of Mat Orders], 
 REMOVEFILTERS('RollingCalendar'), -- This is the critical line
@@ -35,38 +39,38 @@ REMOVEFILTERS('RollingCalendar'), -- This is the critical line
     )
 ) 
 
-- Report Month
-Current Month Active Suppliers = 
+- Current Month
+  · Current Month Active Suppliers = 
 CALCULATE(
     DISTINCTCOUNT('ProcRep'[SupplierName]),
     REMOVEFILTERS('RollingCalendar'),
     DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
 )
 
-Current Month Order No. = 
+  · Current Month Order No. = 
 CALCULATE(
     [Total Count of Orders Raised],
     REMOVEFILTERS('RollingCalendar'),
     DATESBETWEEN('RollingCalendar'[Date], [Report Month Start] , [Report Month End])
 )
 
-Current Month Order Value = 
+  · Current Month Order Value = 
 CALCULATE(
     [Total Count of Orders Raised],
     REMOVEFILTERS('RollingCalendar'),
     DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
 )
 
-Current Month Sub Value = 
+  · Current Month Sub Value = 
 CALCULATE(
     [Total Value of Sub Orders], 
-    REMOVEFILTERS('RollingCalendar'), -- This is the critical line
+    REMOVEFILTERS('RollingCalendar'), 
     KEEPFILTERS(
         DATESBETWEEN('RollingCalendar'[Date], [Report Month Start], [Report Month End])
     )
 ) 
 
-Current Month Ave. Value = 
+  · Current Month Ave. Value = 
 CALCULATE(
     [Total Value of Orders Raised]/[Total Count of Orders Raised], 
     REMOVEFILTERS('RollingCalendar'),
@@ -74,9 +78,9 @@ CALCULATE(
 )
 
 3. Top 10
-- Contract Rank = RANKX(ALL('ProcRep'[ContractName]), 'ProcRep'[Total Value of Orders Raised], ,DESC)
+  · Contract Rank = RANKX(ALL('ProcRep'[ContractName]), 'ProcRep'[Total Value of Orders Raised], ,DESC)
 
-- Top 10 Contract Order No. = 
+  · Top 10 Contract Order No. = 
 CALCULATE(
     [Total Count of Orders Raised],
     KEEPFILTERS(
@@ -84,8 +88,9 @@ CALCULATE(
     )
 )
 
-- Top 10 Order No. % = DIVIDE([Top 10 Contract Order No.], CALCULATE([Total Count of Orders Raised], ALL('ProcRep'[ContractName])))
-Top 10 Order No. Only = 
+  · Top 10 Order No. % = DIVIDE([Top 10 Contract Order No.], CALCULATE([Total Count of Orders Raised], ALL('ProcRep'[ContractName])))
+
+  · Top 10 Order No. Only = 
 VAR Top10Table = TOPN(10, ALL('ProcRep'[ContractName]), [Total Value of Orders Raised], DESC)
 RETURN
 IF(
@@ -95,5 +100,5 @@ IF(
 )
 
 4. Value Ties
-- Orders in Tier = VAR MinVal = SELECTEDVALUE('Value Tiers'[Min]) VAR MaxVal = SELECTEDVALUE('Value Tiers'[Max]) RETURN CALCULATE( [Total Count of Orders Raised], FILTER( 'ProcRep', 'ProcRep'[Exvat] > MinVal && 'ProcRep'[Exvat] <= MaxVal ) )
-- Orders % of Total = DIVIDE('Value Tiers'[Orders in Tier],'ProcRep'[Total Count of Orders Raised])
+  · Orders in Tier = VAR MinVal = SELECTEDVALUE('Value Tiers'[Min]) VAR MaxVal = SELECTEDVALUE('Value Tiers'[Max]) RETURN CALCULATE( [Total Count of Orders Raised], FILTER( 'ProcRep', 'ProcRep'[Exvat] > MinVal && 'ProcRep'[Exvat] <= MaxVal ) )
+  · Orders % of Total = DIVIDE('Value Tiers'[Orders in Tier],'ProcRep'[Total Count of Orders Raised])
