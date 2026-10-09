@@ -1,28 +1,29 @@
 Phase 1: Standardize Each Table Individually
 Power Query Editor for each of the 4 queries.
 
-1. The Fuel Table
+· The Fuel Table
 - Rename Columns: Rename Gross to Total Cost (EUR).
 - Clean time from Dates: Select the Date column. Go to Transform > Data Type > Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "Fuel".
 - Clean up: Select Date, Category, and Total Cost (EUR). Right-click one of the headers and click Remove Other Columns.
 
-2. The Toll Table
+· The Toll Table
 - Rename Columns: Rename DateTime to Date, and rename Amount to Total Cost (EUR).
 - Clean Dates: Change the Date column type to Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "Toll".
 - Clean up: Select Date, Category, and Total Cost (EUR). Right-click and Remove Other Columns.
 
-3. The Parking Table
+· The Parking Table
 - Rename Columns: Rename Date Created to Date, and rename Total to Total Cost (EUR).
 - Clean Dates: Change the Date column type to Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "Parking".
 - Clean up: Select Date, Category, and Total Cost (EUR). Right-click and Remove Other Columns.
 
-4. The EV Table (The Messy One)
+· The EV Table (The Messy One)
 - Fix Header: Rename Date (with the space) to Date. Change type to Date.
 - Add Category: Go to Add Column > Custom Column. Name it Category and type "EV Charge".
-- Fix the Currency: Go to Add Column > Custom Column. Name it Total Cost (EUR). Paste this formula to strip the £ and convert to Euros (assuming a 1.20 exchange rate):
+- Fix the Currency: Go to Add Column > Custom Column. Name it Total Cost (EUR). Paste this formula to strip the "£" and convert to Euros (assuming a 1.20 exchange rate):
+
 let 
    CleanText = Text.Replace(Text.From([Cost]), "£", ""),
    NumericValue = Number.From(CleanText)
@@ -33,12 +34,13 @@ in
 
 Phase 2: Combine Them Together
 Append the tables together.
-1.	On the Home tab, click Append Queries > Append Queries as New.
-2.	Select Three or more tables.
-3.	Add Fuel, Toll, Parking, and EV to the "Tables to append" box.
-4.	Click OK.
+
+- On the Home tab, click Append Queries > Append Queries as New.
+- Select Three or more tables.
+- Add Fuel, Toll, Parking, and EV to the "Tables to append" box.
+- Click OK.
 
 Phase 3: Final Polish
-1.	Rename the append query as Master Fleet Costs.
-2.	Ensure the Data Types are correct (Date is Date, Cost is Decimal Number).
-3.	Rename the original 4 queries.
+- Rename the append query as Master Fleet Costs.
+- Ensure the Data Types are correct (Date is Date, Cost is Decimal Number).
+- Rename the original 4 queries.
